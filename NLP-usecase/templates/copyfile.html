@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Copy File - MYPROJECT</title>
+
+  <link rel="stylesheet" href="/static/css/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="/static/js/copyfile.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="index.html" class="logo">MYPROJECT</a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="index.html" class="nav-link">Briefing File</a></li>
+          <li><a href="copyfile.html" class="nav-link active">Copy File</a></li>
+          <li><a href="comparefiles.html" class="nav-link">Compare Files</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <section class="card">
+      <h1>Copy File</h1>
+
+      <div id="copyChoiceSection" style="margin-bottom: 1.5em;">
+        <!-- JS remplit ici les boutons Utiliser la copy enregistrée ou upload fichier -->
+      </div>
+
+      <div id="contentDisplay" style="display:none;">
+        <div class="text-container">
+          <h3>Stored Copy</h3>
+          <textarea id="storedCopyContent" readonly></textarea>
+        </div>
+        <div class="text-container">
+          <h3>Edit Copy</h3>
+          <textarea id="copyContent"></textarea>
+        </div>
+      </div>
+
+      <div id="comparisonSection" class="comparison-section" style="display:none; margin-top: 1.5em;">
+        <h2>Comparison</h2>
+        <ul class="comparison-list">
+          <li><strong>General similarity:</strong> <span id="generalComparison">0 %</span></li>
+          <li><strong>Semantic similarity:</strong> <span id="semanticComparison">0 %</span></li>
+          <li><strong>Factual similarity:</strong> <span id="factualComparison">0 %</span></li>
+        </ul>
+      </div>
+
+      <p id="saveWarning" style="color:red; font-weight:700; margin-top: 0.5em; display:none;">
+        Please save your changes before continuing.
+      </p>
+
+      <div class="btn-group" style="margin-top: 1.5em;">
+        <input type="file" id="copyFileInput" class="file-input" accept=".docx" style="display:none;" />
+        <button id="saveDesignBtn" class="btn btn-orange" style="display:none;">Save Design</button>
+        <button id="generateDesignBtn" class="btn btn-orange" disabled>Generate Design</button>
+        <button id="downloadDesignBtn" class="btn btn-grey" style="display:none;">Download Design</button>
+        <button id="nextPageBtn" class="btn btn-orange" disabled>Next Page</button>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
