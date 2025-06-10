@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Compare Files - MYPROJECT</title>
+
+  <!-- Preload critique -->
+  <link rel="preload" href="{{ url_for('static', filename='css/styles.css') }}" as="style">
+  
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Scripts avec defer -->
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="{{ url_for('static', filename='js/comparefiles.js') }}" defer></script>
+</head>
+<body>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="{{ url_for('index') }}" class="logo">Company</a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="{{ url_for('index') }}" class="nav-link">Generate Copy</a></li>
+          <li><a href="{{ url_for('copyfile') }}" class="nav-link">Generate Design</a></li>
+          <li><a href="{{ url_for('comparefiles') }}" class="nav-link active">Compare Files</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container - Full Height -->
+  <main class="main-container main-container--fullscreen">
+    
+    <!-- Upload Section -->
+    <section class="upload-section card">
+      <h1>File Comparison & Generation</h1>
+      
+      <!-- File Upload Section -->
+      <div class="file-upload-grid">
+        <div class="file-upload-column">
+          <div class="form-field">
+            <label for="file1Input" class="form-label">Upload First File</label>
+            <input type="file" accept=".docx,.pdf,.html,.png,.jpg,.jpeg" id="file1Input" class="file-input">
+            <div class="file-info" id="file1Info" style="display: none;">
+              <span class="file-name" id="file1Name"></span>
+              <span class="file-type" id="file1Type"></span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="file-upload-column">
+          <div class="form-field">
+            <label for="file2Input" class="form-label">Upload Second File</label>
+            <input type="file" accept=".docx,.pdf,.html,.png,.jpg,.jpeg" id="file2Input" class="file-input">
+            <div class="file-info" id="file2Info" style="display: none;">
+              <span class="file-name" id="file2Name"></span>
+              <span class="file-type" id="file2Type"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button id="compareFilesBtn" class="btn btn--primary" disabled>
+        Compare Files
+      </button>
+    </section>
+
+    <!-- Content Display Section -->
+    <section id="contentDisplay" class="content-display" style="display: none;">
+      
+      <!-- File Comparison Mode -->
+      <div id="comparisonMode" class="dual-content">
+        <div class="content-column">
+          <h3 id="file1Title">File 1</h3>
+          <div class="file-content-container">
+            <textarea id="file1Content" readonly class="content-textarea"></textarea>
+            <div id="file1ImagePreview" class="image-preview" style="display: none;">
+              <img id="file1Image" alt="File 1 Preview" />
+            </div>
+          </div>
+        </div>
+        
+        <div class="content-column">
+          <h3 id="file2Title">File 2</h3>
+          <div class="file-content-container">
+            <textarea id="file2Content" readonly class="content-textarea"></textarea>
+            <div id="file2ImagePreview" class="image-preview" style="display: none;">
+              <img id="file2Image" alt="File 2 Preview" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Metrics -->
+    <section id="comparisonMetricsSection" class="comparison-section card--compact" style="display: none;">
+      <h3>File Comparison Analysis</h3>
+      <div class="comparison-metrics">
+        <div class="metric">
+          <span class="metric-label">Similarity:</span>
+          <span id="similarityScore" class="metric-value">0%</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Content Match:</span>
+          <span id="contentMatch" class="metric-value">0%</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Structure:</span>
+          <span id="structureScore" class="metric-value">0%</span>
+        </div>
+        <div class="metric">
+          <span class="metric-label">Format Compatibility:</span>
+          <span id="formatCompatibility" class="metric-value">0%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Generation Options -->
+    <section id="generationOptions" class="generation-options card--compact" style="display: none;">
+      <h3>Generate New Content</h3>
+      <p class="generation-description">
+        Based on your compared files, generate new marketing content:
+      </p>
+      
+      <div class="generation-choice">
+        <div class="choice-option">
+          <input type="radio" id="generateCopy" name="generationType" value="copy" class="choice-radio">
+          <label for="generateCopy" class="choice-label">
+            <div class="choice-header">
+              <span class="choice-title">Generate Copy</span>
+              <span class="choice-subtitle">Text-based marketing content</span>
+            </div>
+            <p class="choice-description">
+              Create compelling copy based on the analyzed content from both files.
+            </p>
+          </label>
+        </div>
+        
+        <div class="choice-option">
+          <input type="radio" id="generateDesign" name="generationType" value="design" class="choice-radio">
+          <label for="generateDesign" class="choice-label">
+            <div class="choice-header">
+              <span class="choice-title">Generate Design</span>
+              <span class="choice-subtitle">Visual marketing content</span>
+            </div>
+            <p class="choice-description">
+              Create visual design combining elements from both compared files.
+            </p>
+          </label>
+        </div>
+      </div>
+
+      <button id="generateContentBtn" class="btn btn--success" disabled>
+        Generate Selected Content
+      </button>
+    </section>
+
+    <!-- Generated Content Display -->
+    <section id="generatedContentSection" class="content-display" style="display: none;">
+      <div class="single-content">
+        <h3 id="generatedContentTitle">Generated Content</h3>
+        <div class="document-preview">
+          <textarea id="generatedContentArea" class="content-textarea content-textarea--document"></textarea>
+          <div id="generatedDesignPreview" class="designed-copy-final" style="display: none;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <section class="actions-section">
+      <div class="btn-group">
+        <button id="resetBtn" class="btn btn--secondary">Reset</button>
+        <button id="backBtn" class="btn btn--outline">Back to Design</button>
+        
+        <!-- Generation phase buttons -->
+        <button id="downloadGeneratedBtn" class="btn btn--primary" style="display: none;">Download Generated</button>
+        <button id="saveToWorkflowBtn" class="btn btn--success" style="display: none;">Save to Workflow</button>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
