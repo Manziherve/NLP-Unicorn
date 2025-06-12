@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generate Design - SantOrange</title>
+
+  <!-- Preload critique -->
+  <link rel="preload" href="{{ url_for('static', filename='css/styles.css') }}" as="style">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="{{ url_for('index') }}" class="logo">SantOrange</a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="{{ url_for('index') }}" class="nav-link">Generate Copy</a></li>
+          <li><a href="{{ url_for('copyfile') }}" class="nav-link active">Generate Design</a></li>
+          <li><a href="{{ url_for('comparefiles') }}" class="nav-link">Compare Files</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="main-container main-container--fullscreen">
+    
+    <!-- Upload Section (comme index.html) -->
+    <section class="upload-section card">
+      <h1>Design Generation from Copy</h1>
+      
+      <div class="form-field">
+        <label for="copyFileInput" class="form-label">Load a copy file (.docx)</label>
+        <input type="file" id="copyFileInput" name="copyFileInput" class="file-input" accept=".docx">
+        <div class="file-info" style="display: none;">
+          <span class="file-name"></span>
+          <span class="file-type"></span>
+        </div>
+      </div>
+
+      <!-- Comme sur index.html -->
+      <div class="form-actions">
+        <button id="generateDesignBtn" class="btn btn--primary" disabled>
+          Generate Design
+        </button>
+        <button id="resetDesignBtn" class="btn btn--secondary">
+          Reset
+        </button>
+      </div>
+    </section>
+
+    <!-- Content Display Section (comme index.html) -->
+    <section id="contentDisplay" class="content-display card" style="display: none;">
+      <h2>Copy Content</h2>
+      <div class="form-field">
+        <label for="copyContent" class="form-label">Review and edit your copy before design generation</label>
+        <textarea id="copyContent" class="content-textarea" rows="20" placeholder="Your copy content will appear here..."></textarea>
+      </div>
+      
+      <div class="form-actions">
+        <button id="generateDesignFromContentBtn" class="btn btn--primary">
+          Generate Design
+        </button>
+        <button id="resetContentBtn" class="btn btn--secondary">
+          Reset
+        </button>
+      </div>
+    </section>
+
+    <!-- Design Preview Section -->
+    <section id="designPreviewSection" class="design-preview-section card" style="display: none;">
+      <div class="preview-header">
+        <h3>Design Preview</h3>
+        <div class="preview-controls">
+          <button onclick="downloadDesign()" class="btn btn--success">Download HTML</button>
+          <button onclick="hideDesignPreview()" class="btn btn--secondary">Close Preview</button>
+        </div>
+      </div>
+      <div id="designPreviewContent" class="design-preview-content">
+        <!-- Design content will be inserted here -->
+      </div>
+    </section>
+
+    <!-- Comparison Section (comme index.html) -->
+    <section id="comparisonSection" class="comparison-section card" style="display: none;">
+      <h2>Design Quality Analysis</h2>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">Target</span>
+            <span class="metric-label">Design Relevance</span>
+          </div>
+          <span id="designRelevance" class="metric-value">0%</span>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">Content</span>
+            <span class="metric-label">Content Fidelity</span>
+          </div>
+          <span id="contentFidelity" class="metric-value">0%</span>
+        </div>
+        <div class="metric-card">
+          <div class="metric-header">
+            <span class="metric-icon">Quality</span>
+            <span class="metric-label">Design Quality</span>
+          </div>
+          <span id="designQuality" class="metric-value">0%</span>
+        </div>
+      </div>
+      
+      <!-- Analysis Message Section -->
+      <div id="analysisMessageSection" class="analysis-message-section">
+        <div class="analysis-message">
+          <h4>Analysis Details</h4>
+          <p id="analysisText">Design quality analysis completed.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="{{ url_for('static', filename='js/copyfile.js') }}" defer></script>
+</body>
+</html>

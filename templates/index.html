@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Generate Copy</title>
+
+  <!-- Preload critique -->
+  <link rel="preload" href="{{ url_for('static', filename='css/styles.css') }}" as="style">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+
+  <!-- CSS principal -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Scripts avec defer -->
+  <script src="https://unpkg.com/mammoth/mammoth.browser.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+</head>
+<body>
+  <!-- Site Header -->
+  <header class="site-header">
+    <div class="container header-container">
+      <a href="{{ url_for('index') }}" class="logo">SantOrange</a>
+      <nav class="main-nav">
+        <ul class="nav-list">
+          <li><a href="{{ url_for('index') }}" class="nav-link active">Generate Copy</a></li>
+          <li><a href="{{ url_for('copyfile') }}" class="nav-link">Generate Design</a></li>
+          <li><a href="{{ url_for('comparefiles') }}" class="nav-link">Compare Files</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Container - Full Height -->
+  <main class="main-container main-container--fullscreen">
+    
+    <!-- Upload Section -->
+    <section class="upload-section card">
+      <h1>Copy File Generation</h1>
+      
+      <div class="form-field">
+        <label for="briefingFileInput" class="form-label">Load a briefing file (.docx)</label>
+        <input type="file" accept=".docx" id="briefingFileInput" class="file-input">
+      </div>
+
+      <button id="generateBtn" class="btn btn--primary" disabled>
+        Generate Copy
+      </button>
+    </section>
+
+    <!-- Content Display Section -->
+    <section id="contentDisplay" class="content-display" style="display: none;">
+      
+      <!-- Single Content Mode -->
+      <div id="briefingOnlyMode" class="single-content">
+        <h3>Briefing Content</h3>
+        <textarea id="briefingContent" readonly class="content-textarea"></textarea>
+      </div>
+
+      <!-- Dual Content Mode -->
+      <div id="dualContentMode" class="dual-content" style="display: none;">
+        <div class="content-column">
+          <h3>Original Briefing</h3>
+          <textarea id="briefingContentReadonly" readonly class="content-textarea"></textarea>
+        </div>
+        
+        <div class="content-column">
+          <h3>Generated Copy (editable)</h3>
+          <textarea id="generatedCopy" class="content-textarea"></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section id="comparisonSection" class="comparison-section card--compact" style="display: none;">
+      <h3>📊 General Accuracy Analysis</h3>
+      <div class="comparison-metrics">
+        <div class="metric">
+          <span class="metric-label">Factual Accuracy:</span>
+          <span id="factualComparison" class="metric-value">0%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <section class="actions-section">
+      <div class="btn-group">
+        <button id="resetBtn" class="btn btn--secondary">Reset</button>
+        <button id="saveCopyBtn" class="btn btn--primary" style="display: none;">Save</button>
+        <button id="nextPageBtn" class="btn btn--primary" disabled>Next</button>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>
